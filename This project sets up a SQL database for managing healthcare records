@@ -1,0 +1,220 @@
+ Healthcare_DB
+ 
+ --How To Set Up the DB--
+
+CREATE database Healthcare_DB;
+
+-- Creating Patients Table
+CREATE TABLE Patients (
+    PatientID INT PRIMARY KEY IDENTITY(1,1),
+    FirstName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    Gender NVARCHAR(10),
+    DOB DATE,
+    Phone NVARCHAR(20),
+    Address NVARCHAR(200),
+    City NVARCHAR(50),
+    Country NVARCHAR(50),
+    EmergencyContact NVARCHAR(100)
+);
+
+-- Populating Patients Table
+INSERT INTO Patients (FirstName, LastName, Gender, DOB, Phone, Address, City, Country, EmergencyContact)
+VALUES 
+('John', 'Doe', 'Male', '1980-05-12', '123-456-7890', '123 Elm Street', 'New York', 'USA', 'Jane Doe, 123-456-7891'),
+('Mary', 'Smith', 'Female', '1975-09-23', '234-567-8901', '456 Oak Avenue', 'Los Angeles', 'USA', 'John Smith, 234-567-8902'),
+('James', 'Brown', 'Male', '1990-03-15', '345-678-9012', '789 Pine Road', 'Chicago', 'USA', 'Lisa Brown, 345-678-9013'),
+('Emily', 'Davis', 'Female', '1987-11-20', '456-789-0123', '101 Maple Street', 'Houston', 'USA', 'Michael Davis, 456-789-0124'),
+('Michael', 'Clark', 'Male', '1995-01-10', '567-890-1234', '202 Birch Lane', 'Phoenix', 'USA', 'Olivia Clark, 567-890-1235'),
+('Olivia', 'Jones', 'Female', '1992-08-30', '678-345-1234', '303 Spruce Street', 'San Francisco', 'USA', 'Emma Jones, 678-345-1235'),
+('Liam', 'Taylor', 'Male', '1983-12-05', '789-123-4560', '707 Elmwood Ave', 'Austin', 'USA', 'Sophia Taylor, 789-123-4561'),
+('Sophia', 'Anderson', 'Female', '1978-10-11', '890-456-7891', '909 Cherry Blvd', 'Boston', 'USA', 'Lucas Anderson, 890-456-7892'),
+('Ethan', 'Martinez', 'Male', '1985-02-19', '901-678-3456', '120 Pine Hill', 'Miami', 'USA', 'Mia Martinez, 901-678-3457'),
+('Ava', 'Roberts', 'Female', '1989-04-22', '123-789-2345', '456 Magnolia Rd', 'Seattle', 'USA', 'Benjamin Roberts, 123-789-2346');
+
+-- Creating Doctors Table
+CREATE TABLE Doctors (
+    DoctorID INT PRIMARY KEY IDENTITY(1,1),
+    FirstName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    Specialty NVARCHAR(50),
+    Phone NVARCHAR(20),
+    Email NVARCHAR(100),
+    HireDate DATE,
+    Salary DECIMAL(15, 2)
+);
+
+-- Populating Doctors Table
+INSERT INTO Doctors (FirstName, LastName, Specialty, Phone, Email, HireDate, Salary)
+VALUES 
+('Dr. Sarah', 'Connor', 'Cardiology', '111-222-3333', 'sarah.connor@hospital.com', '2015-05-10', 150000),
+('Dr. David', 'Banner', 'Neurology', '222-333-4444', 'david.banner@hospital.com', '2016-03-15', 140000),
+('Dr. Susan', 'Storm', 'Pediatrics', '333-444-5555', 'susan.storm@hospital.com', '2017-08-01', 130000),
+('Dr. John', 'Watson', 'Orthopedics', '444-555-6666', 'john.watson@hospital.com', '2018-01-20', 135000),
+('Dr. Rachel', 'Adams', 'General Medicine', '555-666-7777', 'rachel.adams@hospital.com', '2019-10-05', 120000),
+('Dr. Noah', 'James', 'Endoscopy', '666-777-8888', 'noah.james@hospital.com', '2020-03-12', 145000),
+('Dr. Emma', 'Green', 'Oncology', '777-888-9999', 'emma.green@hospital.com', '2021-07-25', 155000),
+('Dr. Olivia', 'King', 'Emergency Medicine', '888-999-0000', 'olivia.king@hospital.com', '2014-11-30', 165000),
+('Dr. William', 'White', 'Pulmonology', '999-000-1111', 'william.white@hospital.com', '2013-04-14', 158000),
+('Dr. Amelia', 'Brown', 'Dermatology', '111-111-2222', 'amelia.brown@hospital.com', '2016-09-20', 142000);
+
+-- Creating Appointments Table
+CREATE TABLE Appointments (
+    AppointmentID INT PRIMARY KEY IDENTITY(1,1),
+    PatientID INT,
+    DoctorID INT,
+    AppointmentDate DATE,
+    AppointmentTime TIME,
+    Status NVARCHAR(20),
+    Notes NVARCHAR(MAX),
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)
+);
+
+-- Populating Appointments Table
+INSERT INTO Appointments (PatientID, DoctorID, AppointmentDate, AppointmentTime, Status, Notes)
+VALUES 
+(1, 1, '2023-09-01', '09:00', 'Scheduled', 'Routine checkup'),
+(2, 2, '2023-09-03', '10:30', 'Scheduled', 'Neurological evaluation'),
+(3, 3, '2023-09-05', '14:00', 'Completed', 'Follow-up consultation'),
+(4, 4, '2023-09-07', '11:00', 'Canceled', 'Patient requested reschedule'),
+(5, 5, '2023-09-10', '13:00', 'Scheduled', 'General health checkup'),
+(6, 6, '2023-09-12', '15:00', 'Completed', 'Endoscopy follow-up'),
+(7, 7, '2023-09-15', '08:30', 'Scheduled', 'Oncology consultation'),
+(8, 8, '2023-09-17', '10:00', 'Scheduled', 'Emergency follow-up'),
+(9, 9, '2023-09-20', '16:00', 'Scheduled', 'Pulmonology examination'),
+(10, 10, '2023-09-25', '14:30', 'Scheduled', 'Dermatology skin check');
+
+-- Creating Treatments Table
+CREATE TABLE Treatments (
+    TreatmentID INT PRIMARY KEY IDENTITY(1,1),
+    TreatmentName NVARCHAR(100),
+    Description NVARCHAR(MAX),
+    Cost DECIMAL(15, 2)
+);
+
+-- Populating Treatments Table
+INSERT INTO Treatments (TreatmentName, Description, Cost)
+VALUES 
+('Chemotherapy', 'Cancer treatment involving chemical drug administration', 5000.00),
+('Radiation Therapy', 'Using radiation to kill cancer cells', 4000.00),
+('Physical Therapy', 'Rehabilitation therapy to restore movement', 1000.00),
+('Cardiac Surgery', 'Open heart surgery for blocked arteries', 20000.00),
+('Endoscopy', 'Non-surgical procedure to examine digestive tract', 1500.00),
+('Dialysis', 'Procedure to remove waste products from blood', 3000.00),
+('Counseling Session', 'Mental health therapy with a professional', 200.00),
+('Vaccination', 'Immunization for disease prevention', 100.00),
+('Fracture Fixation', 'Orthopedic treatment for broken bones', 8000.00),
+('Appendectomy', 'Surgical removal of the appendix', 7500.00);
+
+-- Creating MedicalRecords Table
+CREATE TABLE MedicalRecords (
+    RecordID INT PRIMARY KEY IDENTITY(1,1),
+    PatientID INT,
+    DoctorID INT,
+    RecordDate DATE,
+    Diagnosis NVARCHAR(200),
+    TreatmentID INT,
+    Notes NVARCHAR(MAX),
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID),
+    FOREIGN KEY (TreatmentID) REFERENCES Treatments(TreatmentID)
+);
+
+-- Populating MedicalRecords Table
+INSERT INTO MedicalRecords (PatientID, DoctorID, RecordDate, Diagnosis, TreatmentID, Notes)
+VALUES 
+(1, 1, '2023-09-01', 'Hypertension', 1, 'Patient advised to reduce salt intake.'),
+(2, 2, '2023-09-03', 'Migraine', 2, 'Prescribed medication and advised rest.'),
+(3, 3, '2023-09-05', 'Fractured Arm', 3, 'Patient recovering well after physical therapy.'),
+(4, 4, '2023-09-07', 'Knee Surgery', 4, 'Surgery successful, follow-up in two weeks.'),
+(5, 5, '2023-09-10', 'Appendicitis', 10, 'Appendix removed successfully, rest for one week.'),
+(6, 6, '2023-09-12', 'Ulcers', 5, 'Endoscopy performed, medications prescribed.'),
+(7, 7, '2023-09-15', 'Cancer', 1, 'Patient undergoing chemotherapy.'),
+(8, 8, '2023-09-17', 'Asthma', 9, 'Inhaler prescribed, monitor regularly.'),
+(9, 9, '2023-09-20', 'Pneumonia', 6, 'Dialysis not needed, regular medication ongoing.'),
+(10, 10, '2023-09-25', 'Skin Allergy', 7, 'Allergic reaction treated, patient recovering well.');
+
+-- Creating Billing Table
+CREATE TABLE Billing (
+    BillingID INT PRIMARY KEY IDENTITY(1,1),
+    PatientID INT,
+    BillingDate DATE,
+    TotalAmount DECIMAL(15, 2),
+    PaymentStatus NVARCHAR(50),
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID)
+);
+
+-- Populating Billing Table
+INSERT INTO Billing (PatientID, BillingDate, TotalAmount, PaymentStatus)
+VALUES 
+(1, '2023-09-02', 5200.00, 'Paid'),
+(2, '2023-09-04', 4200.00, 'Pending'),
+(3, '2023-09-06', 1100.00, 'Paid'),
+(4, '2023-09-08', 20500.00, 'Paid'),
+(5, '2023-09-11', 7600.00, 'Pending'),
+(6, '2023-09-13', 1500.00, 'Paid'),
+(7, '2023-09-16', 5000.00, 'Pending'),
+(8, '2023-09-18', 300.00, 'Paid'),
+(9, '2023-09-21', 3000.00, 'Pending'),
+(10, '2023-09-26', 250.00, 'Paid');
+
+-- Creating Endoscopy Table
+CREATE TABLE Endoscopy (
+    EndoscopyID INT PRIMARY KEY IDENTITY(1,1),
+    PatientID INT,
+    DoctorID INT,
+    ProcedureDate DATE,
+    Findings NVARCHAR(MAX),
+    Recommendations NVARCHAR(MAX),
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)
+);
+
+-- Populating Endoscopy Table
+INSERT INTO Endoscopy (PatientID, DoctorID, ProcedureDate, Findings, Recommendations)
+VALUES 
+(1, 6, '2023-08-15', 'Mild gastritis observed', 'Avoid spicy food and alcohol'),
+(3, 6, '2023-08-25', 'No abnormalities found', 'Routine follow-up in 6 months'),
+(5, 6, '2023-09-12', 'Ulcer detected in the stomach', 'Medication prescribed and follow-up in 1 month');
+
+-- Creating Oncology Table
+CREATE TABLE Oncology (
+    OncologyID INT PRIMARY KEY IDENTITY(1,1),
+    PatientID INT,
+    DoctorID INT,
+    DiagnosisDate DATE,
+    CancerType NVARCHAR(100),
+    Stage NVARCHAR(50),
+    TreatmentPlan NVARCHAR(MAX),
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)
+);
+
+-- Populating Oncology Table
+INSERT INTO Oncology (PatientID, DoctorID, DiagnosisDate, CancerType, Stage, TreatmentPlan)
+VALUES 
+(7, 7, '2023-08-01', 'Breast Cancer', 'Stage II', 'Chemotherapy followed by radiation therapy'),
+(3, 7, '2023-08-15', 'Lung Cancer', 'Stage III', 'Chemotherapy and surgery consultation'),
+(8, 7, '2023-09-10', 'Skin Cancer', 'Stage I', 'Radiation therapy recommended');
+
+-- Creating ED Triage Table
+CREATE TABLE EDTriage (
+    TriageID INT PRIMARY KEY IDENTITY(1,1),
+    PatientID INT,
+    ArrivalDateTime DATETIME,
+    TriageLevel NVARCHAR(50),
+    Symptoms NVARCHAR(MAX),
+    AssignedDoctorID INT,
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (AssignedDoctorID) REFERENCES Doctors(DoctorID)
+);
+
+-- Populating ED Triage Table
+INSERT INTO EDTriage (PatientID, ArrivalDateTime, TriageLevel, Symptoms, AssignedDoctorID)
+VALUES 
+(1, '2023-09-01 08:00', 'High', 'Chest pain and shortness of breath', 8),
+(2, '2023-09-03 09:15', 'Medium', 'Severe headache and dizziness', 8),
+(4, '2023-09-07 11:45', 'Low', 'Minor laceration on arm', 9),
+(6, '2023-09-12 14:30', 'High', 'Abdominal pain and vomiting', 8),
+(9, '2023-09-20 16:20', 'Medium', 'Persistent cough and fever', 9);
